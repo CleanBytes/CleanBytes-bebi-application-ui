@@ -28,7 +28,7 @@ const SensorStatCard : React.FC<SensorStatCardProps> = ({ title, value, max, uni
                         size={190}
                         strokeWidth={32}
                         outerStrokeColor="white"
-                        innerStrokeColor="pink"
+                        innerStrokeColor="#ebcad5"
                         value={value}
                         max={max}
                     /> 
