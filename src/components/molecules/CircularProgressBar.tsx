@@ -21,7 +21,7 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
 
     const circumRadius = size / 2 - strokeWidth / 2;
     const circumference = 2 * Math.PI * circumRadius;
-    const step = circumference / max;
+    const step = (circumference * 0.80 / max);
 
     return (<>
         <svg width={size} height={size}>
@@ -31,7 +31,13 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
                 r={circumRadius}
                 stroke={outerStrokeColor}
                 strokeWidth={strokeWidth}
+                strokeDasharray={circumference * 0.80}
+                strokeLinecap="round"
                 fill="transparent"
+                className="
+                    rotate-125 
+                    origin-center
+                "
             />
 
             <circle
@@ -39,13 +45,13 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
                 cy={size / 2}
                 r={circumRadius}
                 stroke={innerStrokeColor}
-                strokeWidth={strokeWidth * 0.8}
+                strokeWidth={strokeWidth * 0.80}
                 strokeDasharray={circumference}
                 strokeDashoffset={circumference - value * step}
                 strokeLinecap="round"
                 fill="transparent"
                 className="
-                    rotate-90 
+                    rotate-125 
                     origin-center 
                     transition-all 
                     duration-900"
