@@ -1,4 +1,4 @@
-import SadCloud from '@/assets/sad-cloud.png';
+import AngryCloud from '@/assets/angry-cloud.png';
 import HappyCloud from '@/assets/happy-cloud.png';
 import CircularProgressBar from "../molecules/CircularProgressBar";
 
@@ -39,7 +39,7 @@ const CloudMoodProgressBar: React.FC<CircularProgressBarProps> = ({
                 </div> :
 
                 <div className="w-1/2 absolute">
-                    <img className="w-full animate-pulse" src={SadCloud} />
+                    <img className="w-full animate-pulse" src={AngryCloud} />
                 </div>
             }
 
