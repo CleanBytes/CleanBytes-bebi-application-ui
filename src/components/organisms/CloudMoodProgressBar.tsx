@@ -1,5 +1,6 @@
 import AngryCloud from '@/assets/angry-cloud.png';
 import HappyCloud from '@/assets/happy-cloud.png';
+import ImpassiveCloud from '@/assets/impassive-cloud.png';
 import CircularProgressBar from "../molecules/CircularProgressBar";
 
 interface CircularProgressBarProps {
