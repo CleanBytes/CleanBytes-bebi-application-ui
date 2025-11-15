@@ -31,11 +31,11 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
                 r={circumRadius}
                 stroke={outerStrokeColor}
                 strokeWidth={strokeWidth}
-                strokeDasharray={circumference * 0.80}
+                strokeDasharray={circumference * 0.70}
                 strokeLinecap="round"
                 fill="transparent"
                 className="
-                    rotate-125 
+                    rotate-145 
                     origin-center
                 "
             />
@@ -45,13 +45,13 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
                 cy={size / 2}
                 r={circumRadius}
                 stroke={innerStrokeColor}
-                strokeWidth={strokeWidth * 0.80}
+                strokeWidth={strokeWidth * 0.50}
                 strokeDasharray={circumference}
                 strokeDashoffset={circumference - value * step}
                 strokeLinecap="round"
                 fill="transparent"
                 className="
-                    rotate-125 
+                    rotate-145 
                     origin-center 
                     transition-all 
                     duration-900"

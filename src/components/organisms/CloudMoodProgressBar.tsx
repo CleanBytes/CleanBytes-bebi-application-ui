@@ -34,11 +34,11 @@ const CloudMoodProgressBar: React.FC<CircularProgressBarProps> = ({
                 max={max}
             />
             {(value >= optimalValueMin && value <= optimalValueMax) ?
-                <div className="w-1/2 absolute">
+                <div className="w-[45%] absolute">
                     <img className="w-full animate-bounce" src={HappyCloud} />
                 </div> :
 
-                <div className="w-1/2 absolute">
+                <div className="w-[45%] absolute">
                     <img className="w-full animate-pulse" src={AngryCloud} />
                 </div>
             }

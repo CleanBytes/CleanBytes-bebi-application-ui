@@ -44,8 +44,8 @@ const SensorStatCard : React.FC<SensorStatCardProps> = ({
 
                 <div className="sm:hidden">
                     <CloudMoodProgressBar
-                        size={100}
-                        strokeWidth={12}
+                        size={130}
+                        strokeWidth={18}
                         outerStrokeColor="#f0e8f0"
                         innerStrokeColor="#ffadcd"
                         optimalValueMin={optimalValueMin}
@@ -56,8 +56,8 @@ const SensorStatCard : React.FC<SensorStatCardProps> = ({
                 </div>
                 <div className="hidden sm:inline">
                     <CloudMoodProgressBar
-                        size={160}
-                        strokeWidth={16}
+                        size={170}
+                        strokeWidth={20}
                         outerStrokeColor="#f0e8f0"
                         innerStrokeColor="#ffadcd"
                         optimalValueMin={optimalValueMin}
