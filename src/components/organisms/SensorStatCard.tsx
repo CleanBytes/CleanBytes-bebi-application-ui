@@ -7,10 +7,11 @@ interface SensorStatCardProps {
     description: string;
     max: number;
     value: number;
+    unit: string;
     optimalValueMin: number;
     optimalValueMax: number;
-    unit: string;
-
+    decentValueMin: number;
+    decentValueMax: number;
 }
 
 const SensorStatCard : React.FC<SensorStatCardProps> = ({ 
@@ -21,7 +22,8 @@ const SensorStatCard : React.FC<SensorStatCardProps> = ({
     unit, 
     optimalValueMin, 
     optimalValueMax, 
-    
+    decentValueMin,
+    decentValueMax
      }) => {
     return (<>
 
@@ -50,6 +52,8 @@ const SensorStatCard : React.FC<SensorStatCardProps> = ({
                         innerStrokeColor="#ffadcd"
                         optimalValueMin={optimalValueMin}
                         optimalValueMax={optimalValueMax}
+                        decentValueMin={decentValueMin}
+                        decentValueMax={decentValueMax}
                         value={value}
                         max={max}
                     /> 
@@ -62,6 +66,8 @@ const SensorStatCard : React.FC<SensorStatCardProps> = ({
                         innerStrokeColor="#ffadcd"
                         optimalValueMin={optimalValueMin}
                         optimalValueMax={optimalValueMax}
+                        decentValueMin={decentValueMin}
+                        decentValueMax={decentValueMax}
                         value={value}
                         max={max}
                     /> 

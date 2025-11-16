@@ -10,6 +10,8 @@ interface CircularProgressBarProps {
     innerStrokeColor: string;
     optimalValueMin: number;
     optimalValueMax: number;
+    decentValueMin: number;
+    decentValueMax: number;
     value: number;
     max: number;
 }
@@ -21,9 +23,15 @@ const CloudMoodProgressBar: React.FC<CircularProgressBarProps> = ({
     innerStrokeColor,
     optimalValueMin,
     optimalValueMax,
+    decentValueMin,
+    decentValueMax,
     value,
     max
 }) => {
+    const isOptimalValue = value >= optimalValueMin && value <= optimalValueMax;
+    const isDecentValue = !isOptimalValue && value >= decentValueMin && value <= decentValueMax;
+    const isBadValue = !isOptimalValue && !isDecentValue;
+
     return (<>
         <div className="relative inline-flex justify-center items-center">
             <CircularProgressBar
@@ -34,15 +42,18 @@ const CloudMoodProgressBar: React.FC<CircularProgressBarProps> = ({
                 value={value}
                 max={max}
             />
-            {(value >= optimalValueMin && value <= optimalValueMax) ?
-                <div className="w-[45%] absolute">
-                    <img className="w-full animate-bounce" src={HappyCloud} />
-                </div> :
 
-                <div className="w-[45%] absolute">
-                    <img className="w-full animate-pulse" src={AngryCloud} />
-                </div>
-            }
+            <div className={`w-[45%] absolute ${isOptimalValue ? "opacity-100" : "opacity-0"} transition-opacity duration-750`}>
+                <img className="w-full animate-bounce" src={HappyCloud} />
+            </div>
+
+            <div className={`w-[45%] absolute ${isDecentValue ? "opacity-100" : "opacity-0"} transition-opacity duration-750`}>
+                <img className="w-full animate-bounce" src={ImpassiveCloud} />
+            </div>
+
+            <div className={`w-[45%] absolute ${isBadValue ? "opacity-100" : "opacity-0"} transition-opacity duration-750`}>
+                <img className="w-full animate-bounce" src={AngryCloud} />
+            </div>
 
         </div>
     </>);
