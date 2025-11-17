@@ -1,4 +1,5 @@
 import type React from "react";
+import { useEffect, useState } from "react";
 
 interface CircularProgressBarProps {
     size: number;
@@ -17,11 +18,18 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
     value,
     max,
 }) => {
-    value = value > max ? max : value && value < 0 ? 0 : value;
-
     const circumRadius = size / 2 - strokeWidth / 2;
     const circumference = 2 * Math.PI * circumRadius;
-    const step = (circumference * 0.70 / max);
+    const clampedValue = Math.min(Math.max(value, 0), max);
+
+    const [filledLength, setFilledLength] = useState(0);
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setFilledLength(((circumference * 0.70) / max) * clampedValue);
+        }, 200)
+        return () => clearTimeout(timeout);
+    }, [circumference, max, clampedValue]);
 
     return (<>
         <svg width={size} height={size}>
@@ -37,9 +45,9 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
                 className="
                     rotate-145 
                     origin-center
+                    animate-none   
                 "
             />
-
             <circle
                 cx={size / 2}
                 cy={size / 2}
@@ -47,13 +55,13 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
                 stroke={innerStrokeColor}
                 strokeWidth={strokeWidth * 0.50}
                 strokeDasharray={circumference}
-                strokeDashoffset={circumference - value * step}
+                strokeDashoffset={circumference - filledLength}
                 strokeLinecap="round"
                 fill="transparent"
                 className="
                     rotate-145 
                     origin-center 
-                    transition-all 
+                    transition-[stroke-dashoffset] 
                     duration-900"
             />
         </svg>
