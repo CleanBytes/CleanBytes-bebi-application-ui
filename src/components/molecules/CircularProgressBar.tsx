@@ -62,7 +62,7 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
                     rotate-145 
                     origin-center 
                     transition-[stroke-dashoffset] 
-                    duration-900"
+                    duration-2000"
             />
         </svg>
     </>);
