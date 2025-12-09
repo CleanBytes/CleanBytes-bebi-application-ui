@@ -128,7 +128,7 @@ const DashboardPage = () => {
         <main className="flex justify-center items-start lg:items-center min-h-screen">
             <div className="w-full max-w-7xl flex flex-col m-4 md:m-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2 flex-row gap-4 sm:gap-6 lg:gap-8">
-      
+                    <div className="flex flex-col gap-4 sm:gap-6 lg:gap-8">
                     <SensorStatCard
                         title="Température"
                         description="Température ambiante de la pièce"
@@ -163,14 +163,19 @@ const DashboardPage = () => {
                         decentValueMin={2}
                         decentValueMax={2}
                     />
-                    <MilkDoseHistoryCard
-                        history={milkHistory}
-                    />
+
+                    </div>
+                    <div className="flex flex-col gap-4 sm:gap-6 lg:gap-8">
                     <SerialLinkCard
                         status={status}
                         isAvailable={isAvailable}
                         connect={connect}
                     />
+                    <MilkDoseHistoryCard
+                        history={milkHistory}
+                    />
+                    </div>
+ 
                 </div>
             </div>
         </main>

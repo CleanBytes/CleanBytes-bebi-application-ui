@@ -6,7 +6,7 @@ interface SensorStatCardProps {
     title: string;
     description: string;
     max: number;
-    value: number;
+    value: number | null;
     unit: string;
     optimalValueMin: number;
     optimalValueMax: number;

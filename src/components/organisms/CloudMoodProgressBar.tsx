@@ -12,7 +12,7 @@ interface CircularProgressBarProps {
     optimalValueMax: number;
     decentValueMin: number;
     decentValueMax: number;
-    value: number;
+    value: number | null;
     max: number;
 }
 

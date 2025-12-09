@@ -10,7 +10,7 @@ const MilkDoseHistoryCard: React.FC<MilkDoseHistoryCardProps> = ({ history = [] 
     const totalVolume = history.reduce((acc, curr) => acc + curr, 0);
 
     return (
-        <div className="w-full bg-zinc-950/20 p-4 sm:p-6 lg:p-8 rounded-3xl h-full flex flex-col">
+        <div className="w-full bg-zinc-950/20 p-4 sm:p-6 lg:p-8 rounded-3xl h-full flex flex-col max-h-96">
             <div className="font-[Dynapuff] flex flex-col gap-y-2 h-full">
                 <h2 className="text-white text-xl sm:text-3xl lg:text-4xl font-extrabold mb-4">
                     Historique
