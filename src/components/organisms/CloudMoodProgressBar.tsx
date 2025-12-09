@@ -43,15 +43,15 @@ const CloudMoodProgressBar: React.FC<CircularProgressBarProps> = ({
                 max={max}
             />
 
-            <div className={`w-[45%] absolute ${isOptimalValue ? "opacity-100" : "opacity-0"} transition-opacity duration-750`}>
+            <div className={`w-[45%] absolute ${isOptimalValue || value === null ? "opacity-100" : "opacity-0"} transition-opacity duration-750`}>
                 <img className="w-full animate-bounce" src={HappyCloud} />
             </div>
 
-            <div className={`w-[45%] absolute ${isDecentValue ? "opacity-100" : "opacity-0"} transition-opacity duration-750`}>
+            <div className={`w-[45%] absolute ${isDecentValue && value !== null ? "opacity-100" : "opacity-0"} transition-opacity duration-750`}>
                 <img className="w-full animate-bounce" src={ImpassiveCloud} />
             </div>
 
-            <div className={`w-[45%] absolute ${isBadValue ? "opacity-100" : "opacity-0"} transition-opacity duration-750`}>
+            <div className={`w-[45%] absolute ${isBadValue && value !== null ? "opacity-100" : "opacity-0"} transition-opacity duration-750`}>
                 <img className="w-full animate-bounce" src={AngryCloud} />
             </div>
 

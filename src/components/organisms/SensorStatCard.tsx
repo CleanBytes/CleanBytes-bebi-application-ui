@@ -35,7 +35,7 @@ const SensorStatCard : React.FC<SensorStatCardProps> = ({
                     </h2>
                     <div className="font-[Knewave] text-white flex items-end gap-x-2 ">
                         <span className="text-4xl sm:text-6xl text-zinc-200 font-extrabold">
-                            { value }
+                            { value !== null ? value : "?"}
                         </span>
                         <span className="text-2xl sm:text-4xl font-semibold opacity-80">
                             { unit }

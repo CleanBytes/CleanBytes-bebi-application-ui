@@ -5,9 +5,11 @@ import MilkDoseHistoryCard from "../organisms/MilkDoseHistoryCard";
 import { useState } from "react";
 
 const DashboardPage = () => {
-    const [temperature, setTemperature] = useState(0);
-    const [lightLevel, setLightLevel] = useState(0);
-    const [soudLevel, setSoundLevel] = useState(0);
+    const [temperature, setTemperature] = useState<number | null>(null);
+    const [agitationLevel, setAgitationLevel] = useState<number | null>(null);
+    const [soudLevel, setSoundLevel] = useState<number | null>(null);
+
+    const [milkHistory, setMilkHistory] = useState<number[]>([]);
 
     const [status, setStatus] = useState<'error' | 'inactive' | 'loading' | 'connected'>('inactive');
 
@@ -33,7 +35,6 @@ const DashboardPage = () => {
 
     const readLoop = async (port) => {
         const reader = port.readable.getReader();
-        // On utilise un tableau simple pour accumuler les octets d'une ligne
         let bufferAccumulator = [];
 
         try {
@@ -42,27 +43,51 @@ const DashboardPage = () => {
                 if (done) break;
 
                 if (value) {
-                
-                    value.forEach((byte) => {
-                    
-                        if (byte === 10) {
-                            let text = new TextDecoder().decode(new Uint8Array(bufferAccumulator));
-                            console.log(text)
-                            let values = text.split(",");
-                            console.log(parseInt(values[0]))
+
+                    value.forEach((byte) => bufferAccumulator.push(byte));
+                    if (bufferAccumulator.length > 500) {
+                        console.warn("Buffer trop plein, reset !");
+                        bufferAccumulator = [];
+                    }
+
+                    while (bufferAccumulator.length > 0) {
+                        const header = bufferAccumulator[0];
+                        if (header === 0x01) {
+                            if (bufferAccumulator.length < 4) break; 
                             
-                            if (values.length == 3) {
-                                setTemperature(parseInt(values[0]));
-                                setLightLevel(parseInt(values[1]));
-                                setSoundLevel(parseInt(values[2]));
-                            }
-                            bufferAccumulator = [];
-                        } else {
-    
-                            bufferAccumulator.push(byte);
+                            // ... traitement capteurs ...
+                            const tempByte = bufferAccumulator[1];
+                            const soundByte = bufferAccumulator[2];
+                            const agitationByte = bufferAccumulator[3];
+                            setTemperature(tempByte);
+                            setSoundLevel(soundByte);
+                            setAgitationLevel(agitationByte);
+
+                            bufferAccumulator.splice(0, 4);
                         }
-                        
-                    });
+                        else if (header === 0x02) {
+                            if (bufferAccumulator.length < 2) {
+
+                                break; 
+                            }
+
+                            const dataLength = bufferAccumulator[1]; 
+
+                            if (bufferAccumulator.length < 2 + dataLength) {
+        
+                                break;
+                            }
+
+                            const milkHistory = bufferAccumulator.slice(2, 2 + dataLength);
+                            
+                            setMilkHistory(milkHistory);
+            
+                            bufferAccumulator.splice(0, 2 + dataLength);
+                        }
+                        else {
+                            bufferAccumulator.shift();
+                        }
+                    }
                 }
             }
         } catch (error) {
@@ -70,7 +95,7 @@ const DashboardPage = () => {
         } finally {
             reader.releaseLock();
         }
-    }
+    };
 
     const connect = async () => {
         setStatus('loading');
@@ -85,14 +110,14 @@ const DashboardPage = () => {
             readLoop(port);
 
         } catch (error) {
-
             if (error.name === 'NotFoundError') {
                 setStatus('inactive');
             } else {
                 setStatus('error');
+                console.error(error); 
             }
         }
-    }
+    };
 
     const isAvailable = serialIsAvailable().supported;
 
@@ -103,6 +128,7 @@ const DashboardPage = () => {
         <main className="flex justify-center items-start lg:items-center min-h-screen">
             <div className="w-full max-w-7xl flex flex-col m-4 md:m-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2 flex-row gap-4 sm:gap-6 lg:gap-8">
+      
                     <SensorStatCard
                         title="Température"
                         description="Température ambiante de la pièce"
@@ -113,17 +139,6 @@ const DashboardPage = () => {
                         optimalValueMax={20}
                         decentValueMin={16}
                         decentValueMax={22}
-                    />
-                    <SensorStatCard
-                        title="Luminosité"
-                        description="Intensité lumineuse de la pièce"
-                        value={lightLevel}
-                        max={100}
-                        unit="Lux"
-                        optimalValueMin={0}
-                        optimalValueMax={5}
-                        decentValueMin={6}
-                        decentValueMax={15}
                     />
                     <SensorStatCard
                         title="Niveau sonore"
@@ -141,19 +156,21 @@ const DashboardPage = () => {
                         title="Agitation"
                         description="Intensité de l'agitation de votre bébé"
                         max={3}
-                        value={1}
+                        value={agitationLevel}
                         unit="lvl"
                         optimalValueMin={1}
                         optimalValueMax={1}
                         decentValueMin={2}
                         decentValueMax={2}
                     />
+                    <MilkDoseHistoryCard
+                        history={milkHistory}
+                    />
                     <SerialLinkCard
                         status={status}
                         isAvailable={isAvailable}
                         connect={connect}
                     />
-                    <MilkDoseHistoryCard />
                 </div>
             </div>
         </main>
